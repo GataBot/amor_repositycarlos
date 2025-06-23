@@ -133,6 +133,53 @@
         .open .flap { transform: rotateX(180deg); transition-delay: 0.2s; }
         .open .envelope-wrapper { transform: translateY(110vh) rotateZ(15deg) scale(0.5); opacity: 0; }
         .open .wax-seal { opacity: 0; transition: opacity 0.2s; }
+
+        /* ---- Contador de Tiempo ---- */
+        #time-counter-container {
+            position: fixed; /* Cambiado a fixed */
+            bottom: 20px;    /* Movido más abajo */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 1.5s ease 2.8s;
+            pointer-events: none;
+        }
+        #time-counter-container.visible {
+            opacity: 1;
+        }
+        #time-counter-container.hidden {
+            opacity: 0 !important;
+            transition: opacity 0.5s ease;
+        }
+        #time-counter {
+            font-family: 'Inter', sans-serif;
+            color: #e0b0ff;
+            text-shadow: 0 0 8px #e0b0ff;
+            letter-spacing: 1px;
+            background: rgba(23, 11, 34, 0.6);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: inline-flex;
+            gap: 1.5rem;
+            border: 1px solid rgba(224, 176, 255, 0.3);
+            backdrop-filter: blur(3px);
+        }
+        #time-counter > div {
+            text-align: center;
+        }
+        #time-counter .number {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #fff;
+            display: block;
+        }
+        #time-counter .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #e0b0ff;
+        }
         
         /* ---- Página de la Carta (Adaptable) ---- */
         .full-page-letter { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 100; display: flex; justify-content: center; align-items: center; transform: scale(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease; transition-delay: 1.8s; padding: 2vh; }
@@ -336,13 +383,26 @@
             animation: show-star 2s 5s forwards;
         }
         
-        /* ---- Media Queries para adaptar a escritorio ---- */
+        /* ---- Media Queries para adaptar ---- */
         @media (min-width: 768px) {
             #love-letter-text { font-size: 1.1rem; line-height: 1.7rem; }
             .envelope-wrapper { transform: scale(1); }
             .envelope { width: 340px; height: 220px; }
             .paper-sheet { padding: 40px 50px; }
             .declaration { margin-top: 40px; }
+        }
+        @media (max-width: 640px) {
+            #time-counter {
+                padding: 0.5rem 1rem;
+                gap: 1rem;
+            }
+            #time-counter .number {
+                font-size: 1.2rem;
+            }
+            #time-counter .label {
+                font-size: 0.6rem;
+            }
+            #welcome-message { font-size: 2rem; }
         }
     </style>
 </head>
@@ -364,7 +424,7 @@
     <div id="confetti-container"></div>
     <div id="click-particles"></div>
     
-    <main class="main-container">
+    <main class="main-container relative">
         <div id="envelopeWrapper" class="envelope-wrapper">
             <div class="envelope">
                 <div class="flap">
@@ -377,6 +437,12 @@
             <p class="text-center mt-4 text-gray-300 font-semibold text-xl md:text-2xl dancing-script">Una sorpresa para ti...</p>
         </div>
     </main>
+
+    <!-- CONTADOR DE TIEMPO -->
+    <div id="time-counter-container">
+         <p class="dancing-script text-purple-300 text-lg md:text-xl mb-1">Nuestro Tiempo Juntos</p>
+         <div id="time-counter"></div>
+    </div>
 
     <div id="fullPageLetter" class="full-page-letter">
         <div class="paper-sheet">
@@ -408,19 +474,19 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                  
                  <!-- Carousel 3D -->
                  <div id="photoCarousel">
-                    <h3 class="text-xl md:text-2xl text-purple-600 mb-4 mt-6 dancing-script">Nuestros Fotitos Juntos</h3>
-                    <div class="carousel-wrapper-3d">
-                        <div class="carousel-container-3d">
-                            <div class="carousel-slide-3d"><img src="imagenes/img1.jpg" alt="Recuerdo 1" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+1';"></div>
-                            <div class="carousel-slide-3d"><img src="imagenes/img4.JPG" alt="Recuerdo 2" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+2';"></div>
-                            <div class="carousel-slide-3d"><img src="imagenes/img2.JPG" alt="Recuerdo 3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+3';"></div>
-                            <div class="carousel-slide-3d"><img src="imagenes/img3.JPG" alt="Recuerdo 4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+4';"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-nav-3d">
-                        <button id="prevBtn3d">&lt;</button>
-                        <button id="nextBtn3d">&gt;</button>
-                    </div>
+                     <h3 class="text-xl md:text-2xl text-purple-600 mb-4 mt-6 dancing-script">Nuestros Fotitos Juntos</h3>
+                     <div class="carousel-wrapper-3d">
+                         <div class="carousel-container-3d">
+                             <div class="carousel-slide-3d"><img src="imagenes/img1.jpg" alt="Recuerdo 1" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+1';"></div>
+                             <div class="carousel-slide-3d"><img src="imagenes/img4.JPG" alt="Recuerdo 2" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+2';"></div>
+                             <div class="carousel-slide-3d"><img src="imagenes/img2.JPG" alt="Recuerdo 3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+3';"></div>
+                             <div class="carousel-slide-3d"><img src="imagenes/img3.JPG" alt="Recuerdo 4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+4';"></div>
+                         </div>
+                     </div>
+                     <div class="carousel-nav-3d">
+                         <button id="prevBtn3d">&lt;</button>
+                         <button id="nextBtn3d">&gt;</button>
+                     </div>
                  </div>
 
                  <h2 id="concludingMessage" class="dancing-script text-2xl md:text-3xl text-purple-500 mt-8">Gracias por cada momento.</h2>
@@ -472,6 +538,8 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
         const muteBtn = document.getElementById('mute-btn');
         const waxSeal = document.querySelector('.wax-seal');
         const finalHeartModal = document.getElementById('final-heart-modal');
+        const timeCounterContainer = document.getElementById('time-counter-container');
+        const timeCounter = document.getElementById('time-counter');
 
         // Speaker Icons
         const speakerOnIcon = `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
@@ -503,6 +571,7 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
         window.addEventListener('load', () => {
             createStars();
+            startOurCounter(); // Iniciar el contador
             const welcomeMessage = document.getElementById('welcome-message');
             const heartLoader = document.querySelector('.heart-loader');
             const hour = new Date().getHours();
@@ -524,6 +593,8 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                             setTimeout(() => {
                                 preloader.style.display = 'none';
                                 document.getElementById('envelopeWrapper').classList.add('loaded');
+                                // Hacer visible el contador cuando el sobre aparece
+                                document.getElementById('time-counter-container').classList.add('visible');
                             }, 800);
                         }
                     }, 2000);
@@ -562,6 +633,9 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             synth.triggerAttackRelease("G5", "8n", Tone.now() + 0.4);
 
             body.classList.add('open');
+            // Ocultar el contador al abrir la carta
+            timeCounterContainer.classList.add('hidden');
+
             waxSeal.style.pointerEvents = 'none';
             muteBtn.classList.add('visible');
             music.play().catch(error => console.log("Autoplay was blocked."));
@@ -676,6 +750,31 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             }
         });
 
+        // ---- Lógica del Contador de Tiempo ----
+        function startOurCounter() {
+            const startDate = new Date('2024-02-23T00:00:00');
+
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+
+                // Cálculos de tiempo
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                if (timeCounter) {
+                    timeCounter.innerHTML = `
+                        <div><span class="number">${String(days).padStart(2, '0')}</span><span class="label">Días</span></div>
+                        <div><span class="number">${String(hours).padStart(2, '0')}</span><span class="label">Horas</span></div>
+                        <div><span class="number">${String(minutes).padStart(2, '0')}</span><span class="label">Minutos</span></div>
+                        <div><span class="number">${String(seconds).padStart(2, '0')}</span><span class="label">Segundos</span></div>
+                    `;
+                }
+            }, 1000);
+        }
+        
         // ---- 3D Carousel Logic ----
         function init3DCarousel() {
             const carousel = document.querySelector('.carousel-container-3d');
@@ -865,3 +964,4 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
     </script>
 </body>
 </html>
+
