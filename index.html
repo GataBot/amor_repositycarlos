@@ -136,8 +136,8 @@
 
         /* ---- Contador de Tiempo ---- */
         #time-counter-container {
-            position: fixed; /* Cambiado a fixed */
-            bottom: 20px;    /* Movido más abajo */
+            position: fixed;
+            bottom: 20px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -156,13 +156,13 @@
         #time-counter {
             font-family: 'Inter', sans-serif;
             color: #e0b0ff;
-            text-shadow: 0 0 8px #e0b0ff;
+            text-shadow: 0 0 6px #e0b0ff;
             letter-spacing: 1px;
             background: rgba(23, 11, 34, 0.6);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
             display: inline-flex;
-            gap: 1.5rem;
+            gap: 1rem;
             border: 1px solid rgba(224, 176, 255, 0.3);
             backdrop-filter: blur(3px);
         }
@@ -171,12 +171,12 @@
         }
         #time-counter .number {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: #fff;
             display: block;
         }
         #time-counter .label {
-            font-size: 0.7rem;
+            font-size: 0.55rem;
             text-transform: uppercase;
             color: #e0b0ff;
         }
@@ -247,7 +247,7 @@
         .carousel-slide-3d img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* CAMBIO: Para mostrar la imagen completa */
+            object-fit: contain;
             display: block;
         }
         .carousel-nav-3d {
@@ -288,11 +288,28 @@
             position: relative;
             width: 100%;
             height: 200px;
+            overflow: hidden; /* Para contener la nebulosa */
+        }
+        .starmap-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.2), transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: drift-nebula 30s infinite linear alternate;
+            z-index: 0;
+        }
+        @keyframes drift-nebula {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-45%, -55%) rotate(180deg) scale(1.3); }
         }
         .starmap-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative; /* Para que esté sobre la nebulosa */
+            z-index: 1;
             width: 100%;
             height: 100%;
         }
@@ -383,6 +400,183 @@
             animation: show-star 2s 5s forwards;
         }
         
+        /* ---- Pastel de Cumpleaños ---- */
+        #birthday-cake-card {
+            background: rgba(23, 11, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px auto 0 auto;
+            width: 95%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .cake-container {
+            width: 200px;
+            height: 220px;
+            margin: 10px auto;
+            position: relative;
+            cursor: pointer;
+            animation: bobbing-cake 3s ease-in-out infinite;
+            animation-delay: 3s;
+        }
+        @keyframes bobbing-cake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .cake-plate {
+            width: 220px;
+            height: 10px;
+            background: #f1f1f1;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .cake-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0);
+            width: 180px;
+            height: 60px;
+            background: #f8d7da;
+            border: 3px solid #d63384;
+            animation: build-layer 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+        .cake-layer.layer-1 { 
+            bottom: 10px; 
+            animation-delay: 1s; 
+            border-radius: 0 0 8px 8px;
+        }
+        .cake-layer.layer-2 { 
+            bottom: 70px; 
+            width: 160px; 
+            height: 50px; 
+            animation-delay: 1.5s; 
+            border-radius: 8px 8px 0 0;
+        }
+        .cake-frosting {
+            position: absolute;
+            left: 50%;
+            bottom: 115px;
+            transform: translateX(-50%) scaleY(0);
+            width: 160px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50% / 10px;
+            animation: build-layer 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            animation-delay: 2s;
+        }
+        .cake-candle {
+            position: absolute;
+            left: 50%;
+            bottom: 135px;
+            transform: translateX(-50%) scaleY(0);
+            width: 8px;
+            height: 30px;
+            background: repeating-linear-gradient(45deg, #f8f9fa, #f8f9fa 5px, #8a2be2 5px, #8a2be2 10px);
+            animation: build-layer 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            animation-delay: 2.5s;
+        }
+        .candle-flame {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 12px;
+            background: #ffc107;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 1s infinite;
+        }
+        @keyframes build-layer { to { transform: translateX(-50%) scaleY(1); } }
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1); box-shadow: 0 0 5px #ffc107, 0 0 10px #ffc107; }
+            50% { transform: translateX(-50%) scaleY(0.95) scaleX(1.05); box-shadow: 0 0 8px #ffc107, 0 0 15px #ffc107; }
+        }
+        .cake-container.open .cake-layer.layer-2,
+        .cake-container.open .cake-frosting,
+        .cake-container.open .cake-candle {
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-in;
+            transform: translateX(150%) translateY(-50%) rotate(30deg);
+            opacity: 0;
+        }
+        #birthday-countdown {
+            opacity: 0;
+            margin-top: 15px;
+            transform: translateY(20px);
+            transition: opacity 1s ease 1s, transform 1s ease 1s;
+            text-shadow: 0 0 5px #d63384;
+        }
+        .cake-container.open + #birthday-countdown { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #birthday-countdown .countdown-title { font-size: 1.2rem; font-family: 'Dancing Script', cursive; color: #d63384; }
+        #birthday-countdown .countdown-timer { font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; font-weight: bold; color: #f8d7da;}
+        #birthday-countdown .wait-message { margin-top: 10px; color: #8a2be2; font-weight: bold; animation: pulse-wait 1.5s infinite; }
+        @keyframes pulse-wait {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .cake-confetti-container { position: absolute; inset: 0; pointer-events: none;}
+        .cake-confetti { position: absolute; width: 6px; height: 10px; opacity: 0; }
+        .cake-container.open .cake-confetti { animation: fall 2s ease-out 0.5s forwards; }
+
+        /* ---- Pantalla Final (Epílogo) ---- */
+        #epilogue-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0c0012;
+            z-index: 10003;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+        }
+        #epilogue-screen.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #epilogue-text {
+            font-family: 'Dancing Script', cursive;
+            color: #e0b0ff;
+            font-size: 3rem;
+            text-shadow: 0 0 15px #e0b0ff;
+        }
+        #epilogue-date {
+            color: #c3aed6;
+            font-size: 1rem;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        /* ---- Transición Cinematográfica ---- */
+        #star-travel-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10005;
+            background: radial-gradient(circle, white 0%, rgba(255,255,255,0.8) 20%, rgba(200,200,255,0.5) 50%, transparent 70%);
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+        }
+        body.is-traveling #star-travel-overlay {
+            animation: star-travel 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes star-travel {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(3); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+
         /* ---- Media Queries para adaptar ---- */
         @media (min-width: 768px) {
             #love-letter-text { font-size: 1.1rem; line-height: 1.7rem; }
@@ -403,11 +597,11 @@
                 font-size: 0.6rem;
             }
             #welcome-message { font-size: 2rem; }
+            #epilogue-text { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Contenedores para el fondo nuevo -->
     <div id="star-background"></div>
     <div id="aurora-background">
         <div class="aurora"></div><div class="aurora"></div><div class="aurora"></div>
@@ -438,9 +632,8 @@
         </div>
     </main>
 
-    <!-- CONTADOR DE TIEMPO -->
     <div id="time-counter-container">
-         <p class="dancing-script text-purple-300 text-lg md:text-xl mb-1">Nuestro Tiempo Juntos</p>
+         <p class="dancing-script text-purple-300 text-base md:text-lg mb-1">Nuestro Tiempo Juntos</p>
          <div id="time-counter"></div>
     </div>
 
@@ -472,7 +665,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             <div id="finalContent" class="hidden">
                  <h2 id="finalMessage" class="dancing-script text-3xl md:text-4xl text-purple-600 mt-6">¡Para siempre contigo y Feliz de un día más! Te amo.</h2>
                  
-                 <!-- Carousel 3D -->
                  <div id="photoCarousel">
                      <h3 class="text-xl md:text-2xl text-purple-600 mb-4 mt-6 dancing-script">Nuestros Fotitos Juntos</h3>
                      <div class="carousel-wrapper-3d">
@@ -491,8 +683,7 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
                  <h2 id="concludingMessage" class="dancing-script text-2xl md:text-3xl text-purple-500 mt-8">Gracias por cada momento.</h2>
 
-                 <!-- Interactive Star Map -->
-                <div class="interactive-starmap-card">
+                 <div class="interactive-starmap-card">
                     <h3 class="text-xl md:text-2xl text-purple-400 mb-2 dancing-script">Un Universo de Razones</h3>
                     <div class="starmap-container">
                         <canvas class="starmap-canvas"></canvas>
@@ -500,13 +691,33 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                     <p class="starmap-message">Toca las estrellas</p>
                 </div>
 
-                <!-- Final Secret Star -->
                 <div id="secret-star-card">
                     <div id="secret-star-container">
                         <div id="secret-star"></div>
                         <span>Una última sorpresa Vez</span>
                     </div>
                 </div>
+
+                 <!-- Pastel de Cumpleaños -->
+                 <div id="birthday-cake-card">
+                    <h3 class="text-xl md:text-2xl text-pink-400 mb-2 dancing-script">Algo dulce se acerca...</h3>
+                    <div class="cake-container" id="birthdayCake">
+                        <div class="cake-plate"></div>
+                        <div class="cake-layer layer-1">
+                             <div class="cake-confetti-container"></div>
+                        </div>
+                        <div class="cake-layer layer-2"></div>
+                        <div class="cake-frosting"></div>
+                        <div class="cake-candle">
+                            <div class="candle-flame"></div>
+                        </div>
+                    </div>
+                    <div id="birthday-countdown">
+                        <p class="countdown-title">¡Tu Cumpleaños!</p>
+                        <p class="countdown-timer"></p>
+                        <p class="wait-message">¡Espéralo!</p>
+                    </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -517,6 +728,13 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
         </svg>
         <p id="final-heart-text" class="dancing-script">TE AMO MÁS QUE AYER PERO NUNCA MENOS QUE MAÑANA</p>
     </div>
+
+    <div id="epilogue-screen">
+        <p id="epilogue-text">Nuestra historia continuará...</p>
+        <p id="epilogue-date"></p>
+    </div>
+
+    <div id="star-travel-overlay"></div>
 
     <button id="mute-btn"></button>
     <div id="bouquet">
@@ -540,6 +758,7 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
         const finalHeartModal = document.getElementById('final-heart-modal');
         const timeCounterContainer = document.getElementById('time-counter-container');
         const timeCounter = document.getElementById('time-counter');
+        const epilogueScreen = document.getElementById('epilogue-screen');
 
         // Speaker Icons
         const speakerOnIcon = `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
@@ -571,14 +790,14 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
         window.addEventListener('load', () => {
             createStars();
-            startOurCounter(); // Iniciar el contador
+            startOurCounter();
             const welcomeMessage = document.getElementById('welcome-message');
             const heartLoader = document.querySelector('.heart-loader');
             const hour = new Date().getHours();
             
-            let greeting = "Buenas noches";
-            if (hour >= 5 && hour < 12) { greeting = "Buenos días"; }
-            else if (hour >= 12 && hour < 20) { greeting = "Buenas tardes"; }
+            let greeting = "Buenas noches, Anita";
+            if (hour >= 5 && hour < 12) { greeting = "Buenos días, Anita"; }
+            else if (hour >= 12 && hour < 20) { greeting = "Buenas tardes, Anita"; }
             
             welcomeMessage.textContent = greeting;
             welcomeMessage.classList.add('visible');
@@ -593,7 +812,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                             setTimeout(() => {
                                 preloader.style.display = 'none';
                                 document.getElementById('envelopeWrapper').classList.add('loaded');
-                                // Hacer visible el contador cuando el sobre aparece
                                 document.getElementById('time-counter-container').classList.add('visible');
                             }, 800);
                         }
@@ -633,7 +851,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             synth.triggerAttackRelease("G5", "8n", Tone.now() + 0.4);
 
             body.classList.add('open');
-            // Ocultar el contador al abrir la carta
             timeCounterContainer.classList.add('hidden');
 
             waxSeal.style.pointerEvents = 'none';
@@ -645,42 +862,58 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
         yesBtn.addEventListener('click', () => {
             celebrate();
-            declarationSection.style.display = 'none';
-            finalContent.classList.remove('hidden');
-            bouquet.classList.add('show');
-            finalContent.querySelector('#finalMessage').style.opacity = '1';
-            finalContent.querySelector('#photoCarousel').style.opacity = '1';
-            finalContent.querySelector('.interactive-starmap-card').style.opacity = '1';
-            init3DCarousel();
-            initStarMap();
-            document.getElementById('secret-star-card').addEventListener('click', showFinalHeart);
-            
-            setTimeout(() => { bouquet.classList.remove('show'); bouquet.classList.add('hide'); }, 5000);
-            setTimeout(() => { 
-                finalContent.querySelector('#concludingMessage').style.opacity = '1';
-            }, 5500);
+            body.classList.add('is-traveling');
+
+            setTimeout(() => {
+                // Ocultar contenido antiguo
+                document.getElementById('love-letter-text').style.display = 'none';
+                document.querySelector('.paper-sheet > h1').style.display = 'none';
+                declarationSection.style.display = 'none';
+
+                // Mostrar nuevo contenido
+                finalContent.classList.remove('hidden');
+                bouquet.classList.add('show');
+                finalContent.querySelector('#finalMessage').style.opacity = '1';
+                finalContent.querySelector('#photoCarousel').style.opacity = '1';
+                finalContent.querySelector('.interactive-starmap-card').style.opacity = '1';
+                
+                // Inicializar funciones para el nuevo contenido
+                init3DCarousel();
+                initStarMap();
+                initBirthdayCake();
+                document.getElementById('secret-star-card').addEventListener('click', showFinalHeart);
+                
+                setTimeout(() => { bouquet.classList.remove('show'); bouquet.classList.add('hide'); }, 5000);
+                setTimeout(() => { 
+                    finalContent.querySelector('#concludingMessage').style.opacity = '1';
+                }, 5500);
+
+            }, 750); // Punto medio de la animación de viaje
+
+            // Limpiar la clase de transición
+            setTimeout(() => {
+                body.classList.remove('is-traveling');
+            }, 1500);
         });
         
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('click', moveButton);
         
-        function moveButton(e) {
+        function moveButton() {
             const container = document.querySelector('.buttons');
             const containerRect = container.getBoundingClientRect();
             
             noBtn.style.position = 'absolute';
             noBtn.classList.add('evading');
 
-            // Set a timeout to move the button after the shake animation
             setTimeout(() => {
-                const btnRect = noBtn.getBoundingClientRect(); // Get new rect after it becomes absolute
+                const btnRect = noBtn.getBoundingClientRect();
                 let newTop = Math.random() * (containerRect.height - btnRect.height);
                 let newLeft = Math.random() * (containerRect.width - btnRect.width);
                 noBtn.style.top = `${newTop}px`;
                 noBtn.style.left = `${newLeft}px`;
             }, 100);
 
-            // Remove the class after a short time
             setTimeout(() => {
                 noBtn.classList.remove('evading');
             }, 400); 
@@ -753,12 +986,9 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
         // ---- Lógica del Contador de Tiempo ----
         function startOurCounter() {
             const startDate = new Date('2024-02-23T00:00:00');
-
             setInterval(() => {
                 const now = new Date();
                 const diff = now - startDate;
-
-                // Cálculos de tiempo
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -796,15 +1026,8 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                 carousel.style.transform = `translateZ(-${tz}px) rotateY(${currentAngle}deg)`;
             }
 
-            nextBtn.addEventListener('click', () => {
-                currentAngle -= angle;
-                rotateCarousel();
-            });
-
-            prevBtn.addEventListener('click', () => {
-                currentAngle += angle;
-                rotateCarousel();
-            });
+            nextBtn.addEventListener('click', () => { currentAngle -= angle; rotateCarousel(); });
+            prevBtn.addEventListener('click', () => { currentAngle += angle; rotateCarousel(); });
             
             rotateCarousel();
         }
@@ -817,11 +1040,9 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             const messageEl = card.querySelector('.starmap-message');
             const ctx = canvas.getContext('2d');
 
-            let width, height;
-            let animationFrameId;
+            let width, height, animationFrameId, lineProgress = 0, hoveredStar = null;
             let backgroundStars = [];
-
-            // Main stars with initials and other interactive stars
+            let particles = [];
             const mainStars = [
                 { id: 'C', x: 0.2, y: 0.3, size: 8, msg: null },
                 { id: 'A', x: 0.8, y: 0.7, size: 8, msg: null },
@@ -837,8 +1058,7 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                 backgroundStars = [];
                 for (let i = 0; i < num; i++) {
                     backgroundStars.push({
-                        x: Math.random(),
-                        y: Math.random(),
+                        x: Math.random(), y: Math.random(),
                         size: Math.random() * 1.5 + 0.5,
                         opacity: Math.random() * 0.8 + 0.2,
                         twinkleSpeed: (Math.random() - 0.5) * 0.015
@@ -848,104 +1068,80 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
             function draw() {
                 ctx.clearRect(0, 0, width, height);
-
-                // Draw background stars
                 backgroundStars.forEach(star => {
                     star.opacity += star.twinkleSpeed;
-                    if (star.opacity > 1 || star.opacity < 0.2) {
-                        star.twinkleSpeed *= -1;
-                    }
+                    if (star.opacity > 1 || star.opacity < 0.2) star.twinkleSpeed *= -1;
                     ctx.beginPath();
                     ctx.arc(star.x * width, star.y * height, star.size, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
                     ctx.fill();
                 });
                 
-                // Draw main constellation line
-                const starC = mainStars.find(s => s.id === 'C');
-                const starA = mainStars.find(s => s.id === 'A');
+                // Animar la línea
+                if (lineProgress < 1) lineProgress += 0.01;
+                const starC = mainStars.find(s => s.id === 'C'), starA = mainStars.find(s => s.id === 'A');
                 if (starC && starA) {
-                    ctx.beginPath();
-                    ctx.moveTo(starC.x * width, starC.y * height);
-                    ctx.lineTo(starA.x * width, starA.y * height);
-                    ctx.strokeStyle = "rgba(255, 215, 0, 0.5)";
-                    ctx.lineWidth = 1.5;
-                    ctx.shadowColor = "rgba(255, 215, 0, 1)";
-                    ctx.shadowBlur = 10;
-                    ctx.stroke();
-                    ctx.shadowBlur = 0; // Reset shadow
+                    ctx.beginPath(); 
+                    const endX = starC.x * width + (starA.x * width - starC.x * width) * lineProgress;
+                    const endY = starC.y * height + (starA.y * height - starC.y * height) * lineProgress;
+                    ctx.moveTo(starC.x * width, starC.y * height); 
+                    ctx.lineTo(endX, endY);
+                    ctx.strokeStyle = "rgba(255, 215, 0, 0.5)"; ctx.lineWidth = 1.5; ctx.shadowColor = "rgba(255, 215, 0, 1)";
+                    ctx.shadowBlur = 10; ctx.stroke(); ctx.shadowBlur = 0;
                 }
 
-                // Draw main interactive stars and initials
+                particles.forEach((p, index) => {
+                    p.x += p.vx; p.y += p.vy; p.life--;
+                    if(p.life <= 0) particles.splice(index, 1);
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.fillStyle = `rgba(255, 215, 0, ${p.life / 50})`; ctx.fill();
+                });
+
                 mainStars.forEach(star => {
-                    const pulse = Math.sin(Date.now() * 0.002) * 0.5 + 0.5;
-                    const currentSize = star.size * (1 + pulse * 0.1);
-                    
+                    const isHovered = star === hoveredStar;
+                    const pulse = Math.sin(Date.now() * 0.002 + star.x) * 0.5 + 0.5;
+                    const currentSize = star.size * (1 + pulse * 0.1) * (isHovered ? 1.5 : 1);
+                    if (isHovered) {
+                        for(let i=0; i < 2; i++) particles.push({ x: star.x * width, y: star.y*height, vx: (Math.random()-0.5)*2, vy: (Math.random()-0.5)*2, size: Math.random()*2, life: 50 });
+                    }
                     ctx.beginPath();
                     const gradient = ctx.createRadialGradient(star.x * width, star.y * height, 0, star.x * width, star.y * height, currentSize);
-                    gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-                    gradient.addColorStop(0.7, "rgba(255, 215, 0, 0.8)");
-                    gradient.addColorStop(1, "rgba(255, 215, 0, 0)");
-                    ctx.fillStyle = gradient;
-                    ctx.arc(star.x * width, star.y * height, currentSize * 1.5, 0, Math.PI * 2);
-                    ctx.fill();
-
+                    gradient.addColorStop(0, "rgba(255, 255, 255, 1)"); gradient.addColorStop(0.7, "rgba(255, 215, 0, 0.8)"); gradient.addColorStop(1, "rgba(255, 215, 0, 0)");
+                    ctx.fillStyle = gradient; ctx.arc(star.x * width, star.y * height, currentSize * 1.5, 0, Math.PI * 2); ctx.fill();
                     if(star.id) {
-                        ctx.font = `bold ${star.size * 2.5}px 'Dancing Script'`;
-                        ctx.fillStyle = "#fff";
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.shadowColor = "#fff";
-                        ctx.shadowBlur = 5;
-                        ctx.fillText(star.id, star.x * width, star.y * height);
-                        ctx.shadowBlur = 0;
+                        ctx.font = `bold ${star.size * 2.5}px 'Dancing Script'`; ctx.fillStyle = "#fff"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.shadowColor = "#fff"; ctx.shadowBlur = 5; ctx.fillText(star.id, star.x * width, star.y * height); ctx.shadowBlur = 0;
                     }
                 });
-                
                 animationFrameId = requestAnimationFrame(draw);
             }
 
             function resizeCanvas() {
                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                width = canvas.offsetWidth;
-                height = canvas.offsetHeight;
-                canvas.width = width;
-                canvas.height = height;
-                createBackgroundStars(100);
-                draw();
+                width = canvas.offsetWidth; height = canvas.offsetHeight;
+                canvas.width = width; canvas.height = height;
+                createBackgroundStars(100); draw();
             }
             
-            function checkInteraction(x, y) {
-                let hoveredStar = null;
-                for (const star of mainStars) {
-                    if (!star.msg) continue; // Skip initial stars for messages
-                    const dist = Math.sqrt(Math.pow(x - star.x * width, 2) + Math.pow(y - star.y * height, 2));
-                    if (dist < star.size + 10) { // Increased hit area
-                        hoveredStar = star;
-                        break;
-                    }
-                }
-                
-                if (hoveredStar) {
-                    messageEl.textContent = hoveredStar.msg;
-                    messageEl.style.opacity = 1;
-                } else {
-                    messageEl.textContent = "Toca las estrellas";
-                    messageEl.style.opacity = 0.7;
-                }
-            }
-
             const interactionHandler = (e) => {
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
                 const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-                checkInteraction(x, y);
+                let foundStar = null;
+                for (const star of mainStars) {
+                    if (!star.msg) continue;
+                    if (Math.sqrt(Math.pow(x - star.x * width, 2) + Math.pow(y - star.y * height, 2)) < star.size + 15) {
+                        foundStar = star; break;
+                    }
+                }
+                hoveredStar = foundStar;
+                messageEl.textContent = hoveredStar ? hoveredStar.msg : "Toca las estrellas";
+                messageEl.style.opacity = hoveredStar ? 1 : 0.7;
                 if (e.touches) e.preventDefault();
             };
 
             canvas.addEventListener('mousemove', interactionHandler);
             canvas.addEventListener('touchmove', interactionHandler, { passive: false });
-            
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
         }
@@ -956,12 +1152,62 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             finalHeartModal.classList.remove('animate');
             void finalHeartModal.offsetWidth;
             finalHeartModal.classList.add('animate');
+
+            setTimeout(() => {
+                finalHeartModal.classList.remove('visible', 'animate');
+                setTimeout(() => showEpilogue(), 500);
+            }, 7000);
         }
-        finalHeartModal.addEventListener('click', () => {
-            finalHeartModal.classList.remove('visible', 'animate');
-        });
+
+        // ---- Birthday Cake Logic ----
+        let birthdayInterval;
+        function initBirthdayCake() {
+            const cakeContainer = document.getElementById('birthdayCake');
+            const countdownEl = document.getElementById('birthday-countdown');
+            const timerEl = countdownEl.querySelector('.countdown-timer');
+
+            cakeContainer.addEventListener('click', () => {
+                if (cakeContainer.classList.contains('open')) return;
+                cakeContainer.classList.add('open');
+
+                // Confetti for cake
+                const confettiContainer = cakeContainer.querySelector('.cake-confetti-container');
+                for (let i = 0; i < 30; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('cake-confetti');
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = ['#d63384', '#ffd700', '#8a2be2', '#fff'][Math.floor(Math.random()*4)];
+                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    confettiContainer.appendChild(confetti);
+                }
+
+                if (birthdayInterval) clearInterval(birthdayInterval);
+                const updateCountdown = () => {
+                    const now = new Date();
+                    let birthday = new Date(now.getFullYear(), 8, 28);
+                    if (now > birthday) birthday.setFullYear(now.getFullYear() + 1);
+                    const diff = birthday - now;
+                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((diff % (1000 * 60)) / 1000);
+                    timerEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+                };
+                updateCountdown();
+                birthdayInterval = setInterval(updateCountdown, 1000);
+
+            }, { once: true });
+        }
+        
+        // ---- Epilogue Logic ----
+        function showEpilogue() {
+            const dateEl = document.getElementById('epilogue-date');
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateEl.textContent = today.toLocaleDateString('es-ES', options);
+            epilogueScreen.classList.add('visible');
+        }
 
     </script>
 </body>
 </html>
-
