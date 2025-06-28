@@ -43,8 +43,8 @@
             animation: twinkle linear infinite;
         }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
         }
         /* ---- Estrellas Fugaces ---- */
         .shooting-star {
@@ -184,25 +184,51 @@
         /* ---- Página de la Carta (Adaptable) ---- */
         .full-page-letter { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 100; display: flex; justify-content: center; align-items: center; transform: scale(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease; transition-delay: 1.8s; padding: 2vh; }
         .open .full-page-letter { transform: scale(1); opacity: 1; }
-        .paper-sheet { background: #ffffff; width: 100%; max-width: 800px; height: 95%; max-height: 90vh; border-radius: 10px; padding: 20px; overflow-y: auto; text-align: center; position: relative; animation: neon-glow 2.5s infinite alternate; }
-        @keyframes neon-glow { from { box-shadow: 0 0 10px #d8bfd8, 0 0 20px #d8bfd8, 0 0 30px #c3aed6, 0 0 40px #8a2be2; } to { box-shadow: 0 0 5px #d8bfd8, 0 0 10px #d8bfd8, 0 0 15px #c3aed6, 0 0 20px #8a2be2; } }
+        .paper-sheet { 
+            background-color: #fdfaf2;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+            width: 100%; 
+            max-width: 800px; 
+            height: 95%; 
+            max-height: 90vh; 
+            border-radius: 5px 3px 6px 4px / 4px 6px 3px 5px; 
+            padding: 20px; 
+            overflow-y: auto; 
+            text-align: center; 
+            position: relative; 
+            animation: neon-glow 2.5s infinite alternate; 
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1); 
+        }
+        @keyframes neon-glow { from { box-shadow: 0 0 10px #d8bfd8, 0 0 20px #d8bfd8, inset 0 0 15px rgba(0,0,0,0.1); } to { box-shadow: 0 0 5px #d8bfd8, 0 0 10px #d8bfd8, inset 0 0 15px rgba(0,0,0,0.1); } }
         #love-letter-text { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.6rem; color: #333; }
         #love-letter-text p { opacity: 0; }
         .reveal-text { opacity: 0; transform: translateY(20px); animation: reveal 1s ease-out forwards; }
         @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+        /* MEJORA: Estilo para palabras especiales que brillan */
+        .highlight-word {
+            transition: all 0.3s ease;
+            color: #8a2be2;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .highlight-word:hover {
+            color: #c084fc;
+            text-shadow: 0 0 8px #c084fc, 0 0 12px #f5d0fe;
+        }
 
         /* ---- Botones Sí/No ---- */
         .declaration { margin-top: 20px; padding-top: 20px; border-top: 1px dashed #d8bfd8; }
         .buttons { margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 1rem; position: relative; min-height: 50px; }
-        .btn { padding: 10px 20px; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; border: none; }
-        .btn-yes { background-color: #8a2be2; z-index: 10; transition: all 0.3s ease; }
-        .btn-yes:hover { background-color: #9932cc; transform: scale(1.05); }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; border: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-yes { background: linear-gradient(45deg, #8a2be2, #c3aed6); z-index: 10; }
+        .btn-yes:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4); }
         .btn-no { background-color: #c3aed6; transition: top 0.4s ease-out, left 0.4s ease-out, transform 0.4s ease; }
-        
-        .btn-no.evading {
-            animation: frantic-shake 0.4s ease-in-out;
+        .btn-no.evading { animation: frantic-shake 0.4s ease-in-out; }
+        .heart-icon { width: 20px; height: 20px; fill: white; animation: pulse-heart-btn 2s infinite; }
+        @keyframes pulse-heart-btn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
-
         @keyframes frantic-shake {
             0%, 100% { transform: translateX(0) rotate(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-3deg); }
@@ -243,11 +269,12 @@
             border: 3px solid #d8bfd8;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             background-color: rgba(0,0,0,0.2);
+            cursor: pointer; 
         }
         .carousel-slide-3d img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover; 
             display: block;
         }
         .carousel-nav-3d {
@@ -258,16 +285,72 @@
             background-color: rgba(138, 43, 226, 0.6);
             border: none;
             color: white;
-            padding: 10px 15px;
+            padding: 10px;
             margin: 0 10px;
             border-radius: 50%;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             width: 45px;
             height: 45px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
         }
         .carousel-nav-3d button:hover {
             background-color: rgba(138, 43, 226, 0.9);
+        }
+        .carousel-nav-3d button svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+        .carousel-nav-3d button:hover svg {
+            transform: scale(1.1);
+        }
+
+        #carousel-message-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(23, 11, 34, 0.85);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #8a2be2;
+            backdrop-filter: blur(8px);
+            z-index: 10003;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+        #carousel-message-popup.visible {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: all;
+        }
+        #carousel-message-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            line-height: 2.2rem;
+            color: #ffd700;
+            text-shadow: 0 0 8px #ffd700;
+        }
+        #close-popup-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
         }
 
         /* ---- Constelación y Mapa Estelar Interactivo ---- */
@@ -288,7 +371,7 @@
             position: relative;
             width: 100%;
             height: 200px;
-            overflow: hidden; /* Para contener la nebulosa */
+            overflow: hidden; 
         }
         .starmap-container::before {
             content: '';
@@ -308,7 +391,7 @@
             to { transform: translate(-45%, -55%) rotate(180deg) scale(1.3); }
         }
         .starmap-canvas {
-            position: relative; /* Para que esté sobre la nebulosa */
+            position: relative; 
             z-index: 1;
             width: 100%;
             height: 100%;
@@ -340,6 +423,10 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
+            transition: background-color 0.3s ease;
+        }
+        #secret-star-container:hover {
+            background: rgba(40, 15, 60, 0.8);
         }
         #secret-star { width: 12px; height: 12px; background: #ffd700; border-radius: 50%; box-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700; animation: pulse-secret-star 2s infinite; }
         @keyframes pulse-secret-star { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
@@ -382,7 +469,12 @@
         /* ---- Estilos para Corazón Final ---- */
         #final-heart-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 10002; display: flex; flex-direction:column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
         #final-heart-modal.visible { opacity: 1; pointer-events: all; }
-        #final-heart-svg { width: 250px; height: 250px; }
+        #final-heart-svg { 
+            width: 250px; 
+            height: 250px;
+            /* MEJORA: Sombra para dar profundidad */
+            filter: drop-shadow(0px 0px 15px rgba(255, 121, 198, 0.6));
+        }
         #final-heart-path { stroke: #ff79c6; stroke-width: 3; fill: transparent; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
         #final-heart-text { color: white; opacity: 0; margin-top: 1rem; font-size: 1.5rem; text-shadow: 0 0 10px #ff79c6;}
         
@@ -392,12 +484,24 @@
         }
         @keyframes show-star { to { opacity: 1; } }
         @keyframes draw-line { to { stroke-dashoffset: 0; } }
+        /* MEJORA: Animación de latido del corazón */
+        @keyframes final-heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        #final-heart-modal.animate #final-heart-svg {
+            animation: final-heartbeat 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 5s forwards;
+        }
         #final-heart-modal.animate #final-heart-path {
             animation: draw-line 3s 0.5s ease-out forwards, 
                          fill-heart 1.5s 3.5s ease-in forwards;
         }
         #final-heart-modal.animate #final-heart-text {
-            animation: show-star 2s 5s forwards;
+            animation: show-star 1.5s 6.5s forwards;
         }
         
         /* ---- Pastel de Cumpleaños ---- */
@@ -417,7 +521,6 @@
             height: 220px;
             margin: 10px auto;
             position: relative;
-            cursor: pointer;
             animation: bobbing-cake 3s ease-in-out infinite;
             animation-delay: 3s;
         }
@@ -491,27 +594,45 @@
             background: #ffc107;
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             animation: flicker 1s infinite;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .candle-flame.extinguished {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+            pointer-events: none;
+        }
+        .smoke-puff {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            width: 15px;
+            height: 15px;
+            background: rgba(200, 200, 200, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, 10px) scale(0);
+            opacity: 0;
+        }
+        .candle-flame.extinguished + .smoke-puff {
+            animation: puff-smoke 1s ease-out forwards;
+        }
+        @keyframes puff-smoke {
+            0% { transform: translate(-50%, 10px) scale(0); opacity: 1; }
+            100% { transform: translate(-60%, -40px) scale(2.5); opacity: 0; }
         }
         @keyframes build-layer { to { transform: translateX(-50%) scaleY(1); } }
         @keyframes flicker {
             0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1); box-shadow: 0 0 5px #ffc107, 0 0 10px #ffc107; }
             50% { transform: translateX(-50%) scaleY(0.95) scaleX(1.05); box-shadow: 0 0 8px #ffc107, 0 0 15px #ffc107; }
         }
-        .cake-container.open .cake-layer.layer-2,
-        .cake-container.open .cake-frosting,
-        .cake-container.open .cake-candle {
-            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-in;
-            transform: translateX(150%) translateY(-50%) rotate(30deg);
-            opacity: 0;
-        }
         #birthday-countdown {
             opacity: 0;
             margin-top: 15px;
             transform: translateY(20px);
-            transition: opacity 1s ease 1s, transform 1s ease 1s;
+            transition: opacity 1s ease, transform 1s ease;
             text-shadow: 0 0 5px #d63384;
         }
-        .cake-container.open + #birthday-countdown { 
+        .cake-container.blown-out ~ #birthday-countdown { 
             opacity: 1;
             transform: translateY(0);
         }
@@ -519,12 +640,20 @@
         #birthday-countdown .countdown-timer { font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; font-weight: bold; color: #f8d7da;}
         #birthday-countdown .wait-message { margin-top: 10px; color: #8a2be2; font-weight: bold; animation: pulse-wait 1.5s infinite; }
         @keyframes pulse-wait {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+             0%, 100% { transform: scale(1); opacity: 1; }
+             50% { transform: scale(1.05); opacity: 0.8; }
         }
+        #blow-candle-prompt {
+            color: #ffd700;
+            font-family: 'Dancing Script';
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 1s ease 3s;
+        }
+        #blow-candle-prompt.visible { opacity: 1; }
         .cake-confetti-container { position: absolute; inset: 0; pointer-events: none;}
         .cake-confetti { position: absolute; width: 6px; height: 10px; opacity: 0; }
-        .cake-container.open .cake-confetti { animation: fall 2s ease-out 0.5s forwards; }
+        .cake-container.blown-out .cake-confetti { animation: fall 2s ease-out 0.2s forwards; }
 
         /* ---- Pantalla Final (Epílogo) ---- */
         #epilogue-screen {
@@ -549,12 +678,29 @@
             color: #e0b0ff;
             font-size: 3rem;
             text-shadow: 0 0 15px #e0b0ff;
+            opacity: 0;
+            animation: write-in-stars 4s forwards;
         }
         #epilogue-date {
             color: #c3aed6;
             font-size: 1rem;
             margin-top: 1rem;
             letter-spacing: 2px;
+            opacity: 0;
+            animation: reveal 2s 3s forwards;
+        }
+        
+        @keyframes write-in-stars {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                text-shadow: 0 0 30px #e0b0ff;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                text-shadow: 0 0 15px #e0b0ff;
+            }
         }
         
         /* ---- Transición Cinematográfica ---- */
@@ -644,12 +790,12 @@
                 ¡Feliz 1 año y 4 meses, Mi Amor!
             </h1>
             <div id="love-letter-text" class="text-left leading-relaxed">
-                <p class="mb-4">Hoy, 23 de Junio, es un día muy especial para mí y para ti porque cumplimos 16 meses juntos, mi amor bella, No puedo creer que ya hayan pasado 16 meses desde que te pedí ser mi novia en esa cita tan especial que tuvimos en sendero, después de haber ido a comer pollito KFC, Recuerdo ese momento como si hubiera sido ayer mi vida Como cuando te vi por primera vez tu te veías tan bonita y yo tan feliz de verte.</p>
-                <p class="mb-4">Amorcitoooo corazón y lo vuelvo a decir hoy pero hoy este día cumplimos 16 meses, y si no lo sabes lo feliz que estoy y me siento, porque estoy con una persona tan maravillosa y única como tu mi niña, Sabes mi amor me alegra haberte conocido, fuiste mi mejor casualidad, soy tan afortunado de tenerte en mi vida, no es mentira, es en serio, me encanta que estés en mi vida, has sido mi compañera en este viaje llamado vida, y juntos hemos superado obstáculos y diferencias hemos tenido problemas, Pero a pesar de todo, aquí estamos, más fuertes que nunca a pesar de nuestras peleas y indiferencia, Me gustas tal y Como la primera vez , te amoooo muchísimo, amo todo de ti tus ojos, tus labios, tu cabello, tu aroma, tus abrazos, tus besos, tu risa y tu alegría todo de ti amo aunque pienses que no me encantas mucho y demasiado mi vida Simplemente amo todo de ti, para mí eres perfecta mi corazoncito te adoro bastante sabes me siento feliz y orgulloso de estar contigo de ver cada uno de tus virtudes y ver lo capaz que eres de hacer las cosas lo que logras y te esfuerzas valoro mucho cada momento a tu lado y lo que haces me siento afortunado contigo.</p>
-                <p class="mb-4">Y sabes que me gusta más de esto, es que sigo estando tan enamorado de ti como la primera vez que te vi tal y Como te lo dije, Mi amor por ti no ha disminuido, sino que ha crecido cada día más. Te amo hoy y siempre, mi amor.
+                <p class="mb-4">Hoy, 23 de Junio, es un día muy especial para mí y para ti porque cumplimos 16 meses <span class="highlight-word">juntos</span>, mi <span class="highlight-word">amor</span> bella, No puedo creer que ya hayan pasado 16 meses desde que te pedí ser mi novia en esa cita tan especial que tuvimos en sendero, después de haber ido a comer pollito KFC, Recuerdo ese momento como si hubiera sido ayer mi vida Como cuando te vi por primera vez tu te veías tan bonita y yo tan feliz de verte.</p>
+                <p class="mb-4">Amorcitoooo <span class="highlight-word">corazón</span> y lo vuelvo a decir hoy pero hoy este día cumplimos 16 meses, y si no lo sabes lo feliz que estoy y me siento, porque estoy con una persona tan maravillosa y única como tu mi niña, Sabes mi <span class="highlight-word">amor</span> me alegra haberte conocido, fuiste mi mejor casualidad, soy tan afortunado de tenerte en mi vida, no es mentira, es en serio, me encanta que estés en mi vida, has sido mi compañera en este viaje llamado vida, y <span class="highlight-word">juntos</span> hemos superado obstáculos y diferencias hemos tenido problemas, Pero a pesar de todo, aquí estamos, más fuertes que nunca a pesar de nuestras peleas y indiferencia, Me gustas tal y Como la primera vez , te amoooo muchísimo, amo todo de ti tus ojos, tus labios, tu cabello, tu aroma, tus abrazos, tus besos, tu risa y tu alegría todo de ti amo aunque pienses que no me encantas mucho y demasiado mi vida Simplemente amo todo de ti, para mí eres perfecta mi <span class="highlight-word">corazoncito</span> te adoro bastante sabes me siento feliz y orgulloso de estar contigo de ver cada uno de tus virtudes y ver lo capaz que eres de hacer las cosas lo que logras y te esfuerzas valoro mucho cada momento a tu lado y lo que haces me siento afortunado contigo.</p>
+                <p class="mb-4">Y sabes que me gusta más de esto, es que sigo estando tan enamorado de ti como la primera vez que te vi tal y Como te lo dije, Mi <span class="highlight-word">amor</span> por ti no ha disminuido, sino que ha crecido cada día más. Te amo hoy y <span class="highlight-word">siempre</span>, mi <span class="highlight-word">amor</span>.
 Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpliendo más meses, años y los que tengan por venir, No te pienso soltar, tampoco lo hagas tú, Eres la razón por la que me levanto cada mañana, eres mi motivación, mi inspiración eres lo que eres un ser hecho para estar conmigo y yo contigo.</p>
                 <p class="mb-4">Te amo, te amo, te amo No tengo palabras para expresar lo mucho que te amo. Eres mi todo Te amo más que ayer y nunca menos que mañana.</p>
-                <p class="mb-4 font-bold">FELIZ 16 MESVERSARIO MI AMOR, TE AMOOOOOOO. Siempre te amaré.</p>
+                <p class="mb-4 font-bold">FELIZ 16 MESVERSARIO MI <span class="highlight-word">AMOR</span>, TE AMOOOOOOO. <span class="highlight-word">Siempre</span> te amaré.</p>
             </div>
             
             <div id="declarationSection" class="declaration">
@@ -657,7 +803,10 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                     ¿Quieres seguir estando conmigo más tiempo, mi vida?
                 </p>
                 <div class="buttons">
-                    <button id="yesBtn" class="btn btn-yes">Sí, mil veces sí</button>
+                    <button id="yesBtn" class="btn btn-yes">
+                        <svg class="heart-icon" viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path></svg>
+                        <span>Sí, mil veces sí</span>
+                    </button>
                     <button id="noBtn" class="btn btn-no">Nop</button>
                 </div>
             </div>
@@ -669,15 +818,15 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                      <h3 class="text-xl md:text-2xl text-purple-600 mb-4 mt-6 dancing-script">Nuestros Fotitos Juntos</h3>
                      <div class="carousel-wrapper-3d">
                          <div class="carousel-container-3d">
-                             <div class="carousel-slide-3d"><img src="imagenes/img1.jpg" alt="Recuerdo 1" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+1';"></div>
-                             <div class="carousel-slide-3d"><img src="imagenes/img4.JPG" alt="Recuerdo 2" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+2';"></div>
-                             <div class="carousel-slide-3d"><img src="imagenes/img2.JPG" alt="Recuerdo 3" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+3';"></div>
-                             <div class="carousel-slide-3d"><img src="imagenes/img3.JPG" alt="Recuerdo 4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+4';"></div>
                          </div>
                      </div>
                      <div class="carousel-nav-3d">
-                         <button id="prevBtn3d">&lt;</button>
-                         <button id="nextBtn3d">&gt;</button>
+                        <button id="prevBtn3d" aria-label="Anterior">
+                             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                         </button>
+                         <button id="nextBtn3d" aria-label="Siguiente">
+                             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                         </button>
                      </div>
                  </div>
 
@@ -698,26 +847,27 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                     </div>
                 </div>
 
-                 <!-- Pastel de Cumpleaños -->
-                 <div id="birthday-cake-card">
+                <div id="birthday-cake-card">
                     <h3 class="text-xl md:text-2xl text-pink-400 mb-2 dancing-script">Algo dulce se acerca...</h3>
                     <div class="cake-container" id="birthdayCake">
                         <div class="cake-plate"></div>
                         <div class="cake-layer layer-1">
-                             <div class="cake-confetti-container"></div>
+                               <div class="cake-confetti-container"></div>
                         </div>
                         <div class="cake-layer layer-2"></div>
                         <div class="cake-frosting"></div>
                         <div class="cake-candle">
                             <div class="candle-flame"></div>
+                            <div class="smoke-puff"></div>
                         </div>
                     </div>
+                    <p id="blow-candle-prompt" class="dancing-script">¡Haz clic en la llama para soplar!</p>
                     <div id="birthday-countdown">
-                        <p class="countdown-title">¡Tu Cumpleaños!</p>
+                        <p class="countdown-title">¡Cuenta Regresiva para tu Cumpleaños!</p>
                         <p class="countdown-timer"></p>
-                        <p class="wait-message">¡Espéralo!</p>
+                        <p class="wait-message">¡Ya falta poco para celebrar!</p>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -732,6 +882,11 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
     <div id="epilogue-screen">
         <p id="epilogue-text">Nuestra historia continuará...</p>
         <p id="epilogue-date"></p>
+    </div>
+    
+    <div id="carousel-message-popup">
+        <button id="close-popup-btn">&times;</button>
+        <p id="carousel-message-text"></p>
     </div>
 
     <div id="star-travel-overlay"></div>
@@ -759,10 +914,21 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
         const timeCounterContainer = document.getElementById('time-counter-container');
         const timeCounter = document.getElementById('time-counter');
         const epilogueScreen = document.getElementById('epilogue-screen');
+        const messagePopup = document.getElementById('carousel-message-popup');
+        const messageText = document.getElementById('carousel-message-text');
+        const closePopupBtn = document.getElementById('close-popup-btn');
 
         // Speaker Icons
         const speakerOnIcon = `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
         const speakerOffIcon = `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l-4-4m0 4l4-4"></path></svg>`;
+
+        const photoData = [
+            { src: 'imagenes/img1.jpg', alt: 'Recuerdo 1', message: 'Nuestro primer día juntos.' },
+            { src: 'imagenes/img4.JPG', alt: 'Recuerdo 2', message: 'Ese viaje inolvidable.' },
+            { src: 'imagenes/img2.JPG', alt: 'Recuerdo 3', message: 'La risa que lo cura todo.' },
+            { src: 'imagenes/img3.JPG', alt: 'Recuerdo 4', message: 'Tú y yo contra el mundo.' },
+            { src: 'https://placehold.co/400x300/2a003a/ffffff?text=Futuro+Recuerdo', alt: 'Futuro', message: 'Y por todos los momentos que vendrán...' }
+        ];
 
         function createStars() {
             const container = document.getElementById('star-background');
@@ -842,6 +1008,14 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
         waxSeal.addEventListener('click', (e) => {
             createClickParticles(e.clientX, e.clientY);
+            
+            // MEJORA: Sonido de papel al abrir
+            const paperSound = new Tone.NoiseSynth({
+                noise: { type: 'brown' },
+                envelope: { attack: 0.005, decay: 0.15, sustain: 0.01 }
+            }).toDestination();
+            paperSound.triggerAttackRelease("0.15", "+0.1");
+
             const synth = new Tone.Synth({
                 oscillator: { type: "sine" },
                 envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 }
@@ -865,19 +1039,16 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             body.classList.add('is-traveling');
 
             setTimeout(() => {
-                // Ocultar contenido antiguo
                 document.getElementById('love-letter-text').style.display = 'none';
                 document.querySelector('.paper-sheet > h1').style.display = 'none';
                 declarationSection.style.display = 'none';
 
-                // Mostrar nuevo contenido
                 finalContent.classList.remove('hidden');
                 bouquet.classList.add('show');
                 finalContent.querySelector('#finalMessage').style.opacity = '1';
                 finalContent.querySelector('#photoCarousel').style.opacity = '1';
                 finalContent.querySelector('.interactive-starmap-card').style.opacity = '1';
                 
-                // Inicializar funciones para el nuevo contenido
                 init3DCarousel();
                 initStarMap();
                 initBirthdayCake();
@@ -888,9 +1059,8 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                     finalContent.querySelector('#concludingMessage').style.opacity = '1';
                 }, 5500);
 
-            }, 750); // Punto medio de la animación de viaje
+            }, 750); 
 
-            // Limpiar la clase de transición
             setTimeout(() => {
                 body.classList.remove('is-traveling');
             }, 1500);
@@ -983,7 +1153,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             }
         });
 
-        // ---- Lógica del Contador de Tiempo ----
         function startOurCounter() {
             const startDate = new Date('2024-02-23T00:00:00');
             setInterval(() => {
@@ -1005,10 +1174,16 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             }, 1000);
         }
         
-        // ---- 3D Carousel Logic ----
         function init3DCarousel() {
             const carousel = document.querySelector('.carousel-container-3d');
             if(!carousel) return;
+            
+            carousel.innerHTML = photoData.map(photo => `
+                <div class="carousel-slide-3d">
+                    <img src="${photo.src}" alt="${photo.alt}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/2a003a/ffffff?text=Imagen+no+encontrada';">
+                </div>
+            `).join('');
+
             const slides = document.querySelectorAll('.carousel-slide-3d');
             const prevBtn = document.getElementById('prevBtn3d');
             const nextBtn = document.getElementById('nextBtn3d');
@@ -1020,6 +1195,15 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
 
             slides.forEach((slide, i) => {
                 slide.style.transform = `rotateY(${i * angle}deg) translateZ(${tz}px)`;
+                slide.addEventListener('click', () => {
+                    const slideAngle = (i * angle);
+                    const normalizedCurrentAngle = (currentAngle % 360 + 360) % 360;
+                    const normalizedSlideAngle = (slideAngle % 360 + 360) % 360;
+                    
+                    if(Math.abs(normalizedCurrentAngle + normalizedSlideAngle) < 1 || Math.abs(normalizedCurrentAngle + normalizedSlideAngle - 360) < 1) {
+                         showCarouselMessage(photoData[i].message);
+                    }
+                });
             });
 
             const rotateCarousel = () => {
@@ -1032,7 +1216,19 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             rotateCarousel();
         }
 
-        // ---- Star Map Logic V2 ----
+        function showCarouselMessage(message) {
+            messageText.textContent = message;
+            messagePopup.classList.add('visible');
+        }
+        closePopupBtn.addEventListener('click', () => {
+            messagePopup.classList.remove('visible');
+        });
+        messagePopup.addEventListener('click', (e) => {
+            if(e.target === messagePopup) {
+                 messagePopup.classList.remove('visible');
+            }
+        });
+
         function initStarMap() {
             const card = document.querySelector('.interactive-starmap-card');
             if (!card) return;
@@ -1077,7 +1273,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
                     ctx.fill();
                 });
                 
-                // Animar la línea
                 if (lineProgress < 1) lineProgress += 0.01;
                 const starC = mainStars.find(s => s.id === 'C'), starA = mainStars.find(s => s.id === 'A');
                 if (starC && starA) {
@@ -1146,45 +1341,58 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             resizeCanvas();
         }
 
-        // ---- Final Heart Modal Logic ----
         function showFinalHeart() {
             finalHeartModal.classList.add('visible');
             finalHeartModal.classList.remove('animate');
             void finalHeartModal.offsetWidth;
             finalHeartModal.classList.add('animate');
 
+            // CORRECCIÓN: Ajuste de tiempo para la pausa de 2 segundos.
+            // Timeline: Draw (3.5s) + Fill (1.5s) + Beat (1.2s) + Text Appear (1.5s) = 7.7s.
+            // We'll wait 2 seconds after the text is fully visible.
             setTimeout(() => {
                 finalHeartModal.classList.remove('visible', 'animate');
-                setTimeout(() => showEpilogue(), 500);
-            }, 7000);
+                document.getElementById('fullPageLetter').style.transition = 'opacity 1.5s ease';
+                document.getElementById('fullPageLetter').style.opacity = '0';
+                setTimeout(() => showEpilogue(), 1500);
+            }, 10000); // Draw(3.5) + Fill(1.5) + Beat(1.2) + Text(1.5) + Pause(2.3) ~= 10s total.
         }
 
-        // ---- Birthday Cake Logic ----
         let birthdayInterval;
         function initBirthdayCake() {
             const cakeContainer = document.getElementById('birthdayCake');
+            const candleFlame = cakeContainer.querySelector('.candle-flame');
             const countdownEl = document.getElementById('birthday-countdown');
             const timerEl = countdownEl.querySelector('.countdown-timer');
+            const promptEl = document.getElementById('blow-candle-prompt');
+            
+            promptEl.classList.add('visible');
 
-            cakeContainer.addEventListener('click', () => {
-                if (cakeContainer.classList.contains('open')) return;
-                cakeContainer.classList.add('open');
+            candleFlame.addEventListener('click', () => {
+                const synth = new Tone.NoiseSynth({
+                    noise: { type: 'white' },
+                    envelope: { attack: 0.005, decay: 0.2, sustain: 0 }
+                }).toDestination();
+                synth.triggerAttackRelease("0.2");
 
-                // Confetti for cake
+                candleFlame.classList.add('extinguished');
+                promptEl.style.opacity = '0';
+
+                cakeContainer.classList.add('blown-out');
                 const confettiContainer = cakeContainer.querySelector('.cake-confetti-container');
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 50; i++) {
                     const confetti = document.createElement('div');
                     confetti.classList.add('cake-confetti');
                     confetti.style.left = `${Math.random() * 100}%`;
                     confetti.style.backgroundColor = ['#d63384', '#ffd700', '#8a2be2', '#fff'][Math.floor(Math.random()*4)];
-                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    confetti.style.animationDelay = `${Math.random() * 0.2}s`;
                     confettiContainer.appendChild(confetti);
                 }
 
                 if (birthdayInterval) clearInterval(birthdayInterval);
                 const updateCountdown = () => {
                     const now = new Date();
-                    let birthday = new Date(now.getFullYear(), 8, 28);
+                    let birthday = new Date(now.getFullYear(), 8, 28); // 28 de Septiembre
                     if (now > birthday) birthday.setFullYear(now.getFullYear() + 1);
                     const diff = birthday - now;
                     const d = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -1199,7 +1407,6 @@ Hoy día en este pasémoslo espectacular amándonos como siempre y sigamos cumpl
             }, { once: true });
         }
         
-        // ---- Epilogue Logic ----
         function showEpilogue() {
             const dateEl = document.getElementById('epilogue-date');
             const today = new Date();
